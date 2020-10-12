@@ -1,0 +1,1 @@
+{"account":"12345","sender":"buzz", "message_id":"4567","payload":{"jobs": [{"method":"monitor","href_slug":"/api/v2/jobs/7010","accept_encoding":"xgzip"}]}}

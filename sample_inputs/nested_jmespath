@@ -1,0 +1,1 @@
+{"account":"12345","sender":"buzz", "message_id":"4567","payload":{"jobs": [{"method":"get","href_slug":"/api/v2/credentials","fetch_all_pages": true, "accept_encoding":"gzip","apply_filter":"results[].{id:id,credential_type:credential_type,name:name,related:{credential_type:related.credential_type}}"}]}}
