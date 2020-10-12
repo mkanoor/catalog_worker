@@ -28,22 +28,7 @@ The Catalog Worker runs under the Receptor and talks to an on-prem Ansible Tower
 
 ## Sequence Diagram
 
-```mermaid
-sequenceDiagram
-participant Platform Controller
-participant Receptor
-participant Catalog Worker
-participant Ansible Tower
-loop Listen
-        Receptor->>Receptor: Wait for Requests from Platform Controller
-end
-Receptor ->> Catalog Worker: Send Request on STDIN
-
-Catalog Worker ->> Ansible Tower: Make REST API calls
-Catalog Worker ->> Receptor : Send Response on STDOUT
-Receptor ->> Platform Controller : Send Data to cloud.redhat.com
-```
-
+``![image text]https://github.com/mkanoor/catalog_worker/blob/master/sequence.png``
 ## Option Config File in Receptor (/etc/receptor/receptor.conf)
 
 **- work-command:**
