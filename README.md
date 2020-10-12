@@ -28,7 +28,8 @@ The Catalog Worker runs under the Receptor and talks to an on-prem Ansible Tower
 
 ## Sequence Diagram
 
-``![image text]https://github.com/mkanoor/catalog_worker/blob/master/sequence.png``
+![Sequence Diargam](https://github.com/mkanoor/catalog_worker/blob/master/sequence.png)
+
 ## Option Config File in Receptor (/etc/receptor/receptor.conf)
 
 **- work-command:**
