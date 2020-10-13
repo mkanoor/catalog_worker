@@ -31,7 +31,7 @@ func (frh *FakeRequestHandler) processRequest(req *RequestMessage, config Catalo
 func TestMain(t *testing.T) {
 	os.Args = []string{"catalog_worker",
 		"--debug",
-		"--token", "gobbledegook",
+		"--token", "gobbledygook",
 		"--url", "https://www.example.com"}
 	b := []byte(`{"account":"12345","sender":"buzz", "message_id":"4567","payload":{"jobs": [{"method":"monitor","href_slug":"/api/v2/jobs/7008","accept_encoding":"gzip"}]}}`)
 	bo := bytes.NewBuffer(b)
@@ -46,7 +46,7 @@ func TestMain(t *testing.T) {
 	if frh.catalogConfig.URL != "https://www.example.com" {
 		t.Errorf("Debug is not being enabled")
 	}
-	if frh.catalogConfig.Token != "gobbledegook" {
+	if frh.catalogConfig.Token != "gobbledygook" {
 		t.Errorf("Token has not been set")
 	}
 }
