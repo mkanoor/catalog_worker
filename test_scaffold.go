@@ -85,7 +85,7 @@ func (ts *testScaffold) base(t *testing.T, jp JobParam, responseCode int, respon
 func (ts *testScaffold) runSuccess(t *testing.T, jp JobParam, responseCode int, responseBody []string, responses []map[string]interface{}) {
 	ts.base(t, jp, responseCode, responseBody)
 	ts.responses = responses
-	apiw := &APIWorker{}
+	apiw := &DefaultAPIWorker{}
 	err := apiw.StartWork(ts.config, jp, ts.client, ts.outputChannel)
 	if err != nil {
 		t.Fatalf("StartWork failed %v", err)
@@ -97,7 +97,7 @@ func (ts *testScaffold) runFail(t *testing.T, jp JobParam, responseCode int, res
 	ts.base(t, jp, responseCode, responseBody)
 	ts.errorMessage = errorMessage
 
-	apiw := &APIWorker{}
+	apiw := &DefaultAPIWorker{}
 	err := apiw.StartWork(ts.config, jp, ts.client, ts.outputChannel)
 	if err == nil {
 		t.Fatalf("Test should have failed but it succedded")

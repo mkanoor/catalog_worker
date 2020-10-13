@@ -18,8 +18,7 @@ type CatalogConfig struct {
 }
 
 func main() {
-	rh := &DefaultRequestHandler{}
-	startRun(os.Stdin, rh)
+	startRun(os.Stdin, &DefaultRequestHandler{})
 }
 
 func startRun(reader io.Reader, rh RequestHandler) {
@@ -46,8 +45,8 @@ func startRun(reader io.Reader, rh RequestHandler) {
 	}
 
 	log.Debug("Processing request")
-	apiw := APIWorker{}
-	rh.processRequest(req, config, &apiw)
+
+	rh.processRequest(req, config, &DefaultAPIWorker{})
 }
 
 func setConfig(config *CatalogConfig) {

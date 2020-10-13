@@ -22,13 +22,13 @@ type WorkHandler interface {
 	StartWork(config *CatalogConfig, params JobParam, client *http.Client, channel chan ResponsePayload) error
 }
 
-// APIWorker is struct to start a worker
-type APIWorker struct {
+// DefaultAPIWorker is struct to start a worker
+type DefaultAPIWorker struct {
 }
 
 // StartWork can be started as a go routine to start a unit of work based on a given JobParam
 // The responses are sent to the Responder's channel so that it can rely it to the Receptor
-func (aw *APIWorker) StartWork(config *CatalogConfig, params JobParam, client *http.Client, channel chan ResponsePayload) error {
+func (aw *DefaultAPIWorker) StartWork(config *CatalogConfig, params JobParam, client *http.Client, channel chan ResponsePayload) error {
 	w := &WorkUnit{outputChannel: channel}
 	w.setConfig(config)
 	w.setJobParameters(params)
