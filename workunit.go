@@ -7,7 +7,6 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
-	log "github.com/sirupsen/logrus"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -15,6 +14,10 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/mkanoor/catalog_worker/internal/artifacts"
+	"github.com/mkanoor/catalog_worker/internal/filters"
+	log "github.com/sirupsen/logrus"
 )
 
 // WorkHandler is an interface to start a worker
@@ -48,7 +51,7 @@ type WorkUnit struct {
 	client        *http.Client
 	input         *JobParam
 	outputChannel chan ResponsePayload
-	filterValue   *Filter
+	filterValue   *filters.Value
 	parsedURL     *url.URL
 	parsedValues  url.Values
 }
@@ -60,7 +63,7 @@ func (w *WorkUnit) setConfig(p *CatalogConfig) {
 
 func (w *WorkUnit) setJobParameters(data JobParam) {
 	if data.ApplyFilter != nil {
-		fltr := Filter{}
+		fltr := filters.Value{}
 		fltr.Parse(data.ApplyFilter)
 		w.filterValue = &fltr
 	}
@@ -357,7 +360,7 @@ func (w *WorkUnit) createJSON(body []byte) (map[string]interface{}, error) {
 
 	v, ok := jsonBody["artifacts"]
 	if ok {
-		s, err := sanctifyArtifacts(v.(map[string]interface{}))
+		s, err := artifacts.Sanctify(v.(map[string]interface{}))
 		if err != nil {
 			log.Error(err)
 			return nil, err

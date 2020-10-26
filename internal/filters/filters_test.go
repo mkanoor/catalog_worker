@@ -1,4 +1,4 @@
-package main
+package filters
 
 import (
 	"bytes"
@@ -7,7 +7,7 @@ import (
 )
 
 func TestMapFilterBadValue(t *testing.T) {
-	f := Filter{Value: "Not a valid expression"}
+	f := Value{Data: "Not a valid expression"}
 	body := `{"id": 100, "name": "Fred Flintstone", "age": 56, "state": "NY"}`
 	var jsonBody map[string]interface{}
 	decoder := json.NewDecoder(bytes.NewReader([]byte(body)))
@@ -20,7 +20,7 @@ func TestMapFilterBadValue(t *testing.T) {
 }
 
 func TestMapFilter(t *testing.T) {
-	f := Filter{Value: `{"id":"id", "name":"name"}`}
+	f := Value{Data: `{"id":"id", "name":"name"}`}
 	body := `{"id": 100, "name": "Fred Flintstone", "age": 56, "state": "NY"}`
 	var jsonBody map[string]interface{}
 	decoder := json.NewDecoder(bytes.NewReader([]byte(body)))
@@ -49,7 +49,7 @@ func TestMapFilter(t *testing.T) {
 }
 
 func TestMapWithArrayFilter(t *testing.T) {
-	f := Filter{Value: "results[].{catalog_id:id, name:name}", ReplaceResults: true}
+	f := Value{Data: "results[].{catalog_id:id, name:name}", ReplaceResults: true}
 	body := `{"count": 2, "results":[{"id": 100, "name": "Fred", "age": 56}, {"id": 200, "name": "Barney", "state": "NY"}]}`
 	var jsonBody map[string]interface{}
 	decoder := json.NewDecoder(bytes.NewReader([]byte(body)))
@@ -78,7 +78,7 @@ func TestMapWithArrayFilter(t *testing.T) {
 }
 
 func TestFilterStringValue(t *testing.T) {
-	f := Filter{}
+	f := Value{}
 	f.Parse("results[].{catalog_id:id, url:url,created:created,name:name, modified:modified, playbook:playbook}")
 	if !f.ReplaceResults {
 		t.Error("Results should be replaced")
@@ -86,7 +86,7 @@ func TestFilterStringValue(t *testing.T) {
 }
 
 func TestFilterMapStringValue(t *testing.T) {
-	f := Filter{}
+	f := Value{}
 	v := map[string]interface{}{"id": "id", "url": "url", "description": "description", "name": "name", "playbook": "playbook"}
 	f.Parse(v)
 	if f.ReplaceResults {

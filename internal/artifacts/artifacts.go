@@ -1,13 +1,16 @@
-package main
+package artifacts
 
 import (
 	"encoding/json"
 	"errors"
-	log "github.com/sirupsen/logrus"
 	"strings"
+
+	log "github.com/sirupsen/logrus"
 )
 
-func sanctifyArtifacts(data map[string]interface{}) (map[string]interface{}, error) {
+// Sanctify the JSON payload for artifacts. The attribute key in the artifacts
+// map should start with expose_to_cloud_redhat_com_ else they are excluded
+func Sanctify(data map[string]interface{}) (map[string]interface{}, error) {
 	result := make(map[string]interface{})
 	for k, v := range data {
 		if strings.HasPrefix(k, "expose_to_cloud_redhat_com_") {

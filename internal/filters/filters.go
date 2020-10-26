@@ -1,21 +1,22 @@
-package main
+package filters
 
 import (
+	"strings"
+
 	"github.com/jmespath/go-jmespath"
 	log "github.com/sirupsen/logrus"
-	"strings"
 )
 
-// Filter stores the parsed value of the JMESPath expression
-type Filter struct {
-	Value          string
+// Value stores the parsed data of the JMESPath expression
+type Value struct {
+	Data           string
 	ReplaceResults bool
 }
 
 // Apply the JMESPath filter to the JSON body recieved from
 // Ansible Tower
-func (f *Filter) Apply(jsonBody map[string]interface{}) (map[string]interface{}, error) {
-	precompiled, err := jmespath.Compile(f.Value)
+func (f *Value) Apply(jsonBody map[string]interface{}) (map[string]interface{}, error) {
+	precompiled, err := jmespath.Compile(f.Data)
 	if err != nil {
 		log.Error(err)
 		return nil, err
@@ -38,10 +39,10 @@ func (f *Filter) Apply(jsonBody map[string]interface{}) (map[string]interface{},
 // The string filter value is used when working with a list response which
 // can contain multiple objects and the filter needs to be applied to each
 // object and the results collection be updated.
-func (f *Filter) Parse(element interface{}) {
+func (f *Value) Parse(element interface{}) {
 	switch element.(type) {
 	case string:
-		f.Value = element.(string)
+		f.Data = element.(string)
 		f.ReplaceResults = true
 	case map[string]interface{}:
 		var sb strings.Builder
@@ -57,6 +58,6 @@ func (f *Filter) Parse(element interface{}) {
 			}
 		}
 		sb.WriteString("}")
-		f.Value = sb.String()
+		f.Data = sb.String()
 	}
 }

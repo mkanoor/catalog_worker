@@ -1,36 +1,27 @@
 SRC_FILES= request.go\
 	  workunit.go \
 	  responder.go \
-	  filters.go \
-	  artifacts.go \
 	  main.go
-TEST_FILES= workunit_test.go \
-	    filters_test.go \
-	    artifacts_test.go \
-	    test_scaffold.go \
-	    request_test.go \
-	    main_test.go
 
-
-BINARY=catalog_worker
+BINARY=catalogworker
 .DEFAULT_GOAL := build
 
 build:
 	go build -o ${BINARY} ${SRC_FILES}
 
 test:
-	go test -v ${TEST_FILES} ${SRC_FILES}
+	go test -v . ./...
 
 test_debug:
-	dlv test ${TEST_FILES} ${SRC_FILES}
+	dlv test ${SRC_FILES}
 
 coverage:
 	rm -rf coverage.out
-	go test -coverprofile=coverage.out ${TEST_FILES} ${SRC_FILES}
+	go test -coverprofile=coverage.out . ./...
 	go tool cover -html=coverage.out
 
 format:
-	go fmt ${SRC_FILES} ${TEST_FILES}
+	go fmt ${SRC_FILES}
 
 run:
 	go run ${SRC_FILES}

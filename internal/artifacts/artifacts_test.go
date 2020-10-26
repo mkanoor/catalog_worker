@@ -1,4 +1,4 @@
-package main
+package artifacts
 
 import (
 	"strings"
@@ -10,7 +10,7 @@ func TestSuccess(t *testing.T) {
 		"expose_to_cloud_redhat_com_name": "Fred",
 		"expose_to_cloud_redhat_com_age":  45}
 
-	result, err := sanctifyArtifacts(data)
+	result, err := Sanctify(data)
 	if err != nil {
 		t.Errorf("Artifact test failed %v", err)
 	}
@@ -37,7 +37,7 @@ func TestHugeArtifact(t *testing.T) {
 		"expose_to_cloud_redhat_com_name": longString,
 		"expose_to_cloud_redhat_com_age":  45}
 
-	_, err := sanctifyArtifacts(data)
+	_, err := Sanctify(data)
 	if !strings.Contains(err.Error(), "Artifacts is greater than 1024 bytes") {
 		t.Error("Failed message does not match")
 	}
@@ -48,7 +48,7 @@ func TestNoArtifact(t *testing.T) {
 		"name": longString,
 		"age":  45}
 
-	result, err := sanctifyArtifacts(data)
+	result, err := Sanctify(data)
 	if err != nil {
 		t.Error("Encountered error")
 	}

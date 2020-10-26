@@ -9,10 +9,13 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"reflect"
 	"strings"
 	"sync"
 	"testing"
+
+	log "github.com/sirupsen/logrus"
 )
 
 type fakeTransport struct {
@@ -72,6 +75,7 @@ func channelSetup(f io.Writer, rh *ResponseHeader) chan ResponsePayload {
 }
 
 func (ts *testScaffold) base(t *testing.T, jp JobParam, responseCode int, responseBody []string) {
+	log.SetOutput(os.Stdout)
 	ts.t = t
 	ts.req = &ResponseHeader{Account: "Buzz", Sender: "Star Command", InResponseTo: "345"}
 	ts.outputChannel = channelSetup(&ts.output, ts.req)
